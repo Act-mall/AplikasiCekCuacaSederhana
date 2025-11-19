@@ -40,11 +40,14 @@ public class WeatherService {
 
         JSONArray weatherArr = obj.getJSONArray("weather");
         JSONObject w0 = weatherArr.getJSONObject(0);
+        
         d.condition = w0.getString("main");
         d.description = w0.getString("description");
 
         d.timestamp = obj.getLong("dt");
         d.iconName = WeatherData.mapConditionToIcon(d.condition);
+        d.iconCode    = w0.optString("icon", "01d");
+        
 
         return d;
     }

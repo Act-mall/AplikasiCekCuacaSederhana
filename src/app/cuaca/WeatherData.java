@@ -9,6 +9,7 @@ public class WeatherData {
     public double wind;
     public long timestamp;
     public String iconName;
+    public String iconCode;
 
     public Object[] toRow() {
         String waktu = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

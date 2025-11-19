@@ -16,7 +16,7 @@ import java.awt.Image;
 public class WeatherAppFrame extends javax.swing.JFrame {
     // --- SERVICE & MODEL ---
     private final WeatherService service =
-            new WeatherService(System.getProperty("f3a36af1108b9f270bdb8f22a0871515"));
+            new WeatherService(System.getProperty("OWM_API_KEY", "f3a36af1108b9f270bdb8f22a0871515"));
 
     private final DefaultComboBoxModel<String> favoritModel = new DefaultComboBoxModel<>();
     private final DefaultTableModel tableModel = new DefaultTableModel(
@@ -34,7 +34,6 @@ public class WeatherAppFrame extends javax.swing.JFrame {
         initComponents();
         // setelah initComponents();
         myInit();
-        setTitle("Aplikasi Cek Cuaca — Opsi A (OpenWeather Icon URL)"); // opsional
     }
 
     /**
@@ -73,6 +72,7 @@ public class WeatherAppFrame extends javax.swing.JFrame {
         btnSimpanCSV = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Aplikasi Cek Cuaca");
 
         jLabel1.setText("Kota");
 
@@ -174,12 +174,12 @@ public class WeatherAppFrame extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGap(57, 57, 57)
                 .addGroup(pDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblKelembaban, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblKota, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSuhu, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAngin, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblKota, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSuhu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblKondisi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblKelembaban, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblAngin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pDetailLayout.setVerticalGroup(
             pDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,14 +313,12 @@ public class WeatherAppFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void myInit() {
-    // Hubungkan model ke komponen
     tblRiwayat.setModel(tableModel);
     cmbFavorit.setModel(favoritModel);
 
     favoritModel.addElement("— pilih favorit —");
     loadFavoritFromFile();
 
-    // Placeholder awal UI
     if (lblKota != null) lblKota.setText("-");
     if (lblSuhu != null) lblSuhu.setText("-");
     if (lblKondisi != null) lblKondisi.setText("-");
@@ -342,9 +340,9 @@ private void tampilkan(WeatherData d) {
     }
 
     tableModel.addRow(new Object[]{
-        df.format(new java.utilDate(d.timestamp * 1000L)),
+        df.format(new java.util.Date(d.timestamp * 1000L)), 
         d.city,
-        String.format("%.1f", d.tempt),
+        String.format("%.1f", d.temp),                     
         d.condition,
         d.humidity,
         String.format("%.1f", d.wind),
